@@ -368,13 +368,13 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 			String s = "";
 			try {
 				if(minecraft.playerController instanceof PlayerControllerMP) {
-					blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerMP.class, minecraft.playerController, "i");
+					blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerMP.class, (PlayerControllerMP)minecraft.playerController, 6);
 				}
 				else if(minecraft.playerController instanceof PlayerControllerSP) {
-					blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerSP.class, minecraft.playerController, "i");
+					blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerSP.class, (PlayerControllerSP)minecraft.playerController, 6);
 				}
 				else if(minecraft.playerController instanceof PlayerControllerCreative) {
-					blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerSP.class, minecraft.playerController, "i");
+					blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerCreative.class, (PlayerControllerCreative)minecraft.playerController, 0);
 				}
 				return blockHitWait;
 			} catch (IllegalArgumentException e) {
@@ -382,9 +382,6 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 				e.printStackTrace();
 			} catch (SecurityException e) {
 				s = "bObfuscate SecurityException";
-				e.printStackTrace();
-			} catch (NoSuchFieldException e) {
-				s = "bObfuscate NoSuchFieldException";
 				e.printStackTrace();
 			}
 			minecraft.ingameGUI.addChatMessage(s);
@@ -395,13 +392,13 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 		String s = "";
 		try {
 			if(minecraft.playerController instanceof PlayerControllerMP) {
-				blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerMP.class, minecraft.playerController, "blockHitDelay");
+				blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerMP.class, (PlayerControllerMP)minecraft.playerController, "blockHitDelay");
 			}
 			else if(minecraft.playerController instanceof PlayerControllerSP) {
-				blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerSP.class, minecraft.playerController, "blockHitWait");
+				blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerSP.class, (PlayerControllerSP)minecraft.playerController, "blockHitWait");
 			}
 			else if(minecraft.playerController instanceof PlayerControllerCreative) {
-				blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerSP.class, minecraft.playerController, "field_35647_c");
+				blockHitWait = (Integer) ModLoader.getPrivateValue(PlayerControllerCreative.class, (PlayerControllerCreative)minecraft.playerController, "field_35647_c");
 			}
 			return blockHitWait;
 		} catch (IllegalArgumentException e) {
@@ -409,9 +406,6 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 			e.printStackTrace();
 		} catch (SecurityException e) {
 			s = "not bObfuscate SecurityException";
-			e.printStackTrace();
-		} catch (NoSuchFieldException e) {
-			s = "not bObfuscate NoSuchFieldException";
 			e.printStackTrace();
 		}
 		minecraft.ingameGUI.addChatMessage(s);
