@@ -30,6 +30,9 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 	@MLProp(info = "Additional target block IDs. Separate by ','")
 	public static String additionalTargets = "";
 
+	@MLProp(info = "Additional tools IDs. Separate by ','")
+	public static String additionalTools = "";
+
 	public static Set<Integer> targetIDs = new LinkedHashSet();
 
 	@MLProp(info = "maximum number of block break (0 = unlimited)")
@@ -40,6 +43,7 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 	public static final int cmd_target = 2;
 	public static final int cmd_limit = 3;
 	public static final int cmd_itembreak = 4;
+	public static final int cmd_tool = 5;
 
 	public static mod_TreeBreakerForge instance = null;
 	public MinecraftServer minecraftServer = null;
@@ -74,7 +78,7 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 
 	@Override
 	public String getVersion() {
-		return "0.0.4";
+		return "0.0.5";
 	}
 
 	@Override
@@ -186,6 +190,7 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 			sendBreakMode(user);
 			sendTargetIds(user);
 			sendBreakLimit(user);
+			sendTools(user);
 		}
 		userList.clear();
 		userList.addAll(users);
@@ -235,7 +240,7 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
             else
             {
                 ItemStack itemstack = breakResister.player.getCurrentEquippedItem();
-                boolean flag1 = breakResister.player.canHarvestBlock(Block.blocksList[i]);
+                boolean flag1 = Block.blocksList[i].canHarvestBlock(breakResister.player, breakResister.metadata);
 
                 if (itemstack != null)
                 {
@@ -285,6 +290,14 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 		as.add(additionalTargets);
 
 		sendPacket(cmd_target, playerName, as, ai);
+	}
+
+	public void sendTools(String playerName) {
+		ArrayList<String> as = new ArrayList<String>();
+		ArrayList<Integer> ai = new ArrayList<Integer>();
+		as.add(additionalTools);
+
+		sendPacket(cmd_tool, playerName, as, ai);
 	}
 
 	public static void sendPacket(int packetType, String playerName, ArrayList<String> as, ArrayList<Integer> ai) {

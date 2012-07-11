@@ -119,6 +119,7 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 	public static final int cmd_target = 2;
 	public static final int cmd_limit = 3;
 	public static final int cmd_itembreak = 4;
+	public static final int cmd_tool = 5;
 
 	public static boolean bInitMode = false;
 	public static boolean bInitTarget = false;
@@ -130,7 +131,7 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 
 	@Override
 	public String getVersion() {
-		return "0.0.4";
+		return "0.0.5";
 	}
 
 	public mod_TreeBreakerForge() {
@@ -283,7 +284,6 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 				bInitTarget = false;
 				bInitLimit = false;
 			}
-			additional_tools_set.clear();
 		}
 		else {
 			if(bInitMode == false && bInitTarget == false && bInitLimit == false) {
@@ -307,6 +307,7 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 		prev_blockHitWait = blockHitWait;
 
 		if(breakflag) {
+
 			Block b = Block.blocksList[blockId];
 			if(b != null) {
 				if(targetIDs.contains(blockId)) {
@@ -540,7 +541,7 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
     	if(debugmode) System.out.printf("breakBlock itemstack.itemDamage == %d\n", itemstack.getItemDamage());
     	String itemName = Item.itemsList[itemstack.itemID].getClass().getName();
 		if(Item.itemsList[itemstack.itemID] instanceof ItemAxe == false && !additional_tools_set.contains(itemName)) {
-			if(debugmode) System.out.println("breakBlock skip(Item not ItemTool)");
+			if(debugmode) System.out.printf("breakBlock skip(Item not ItemTool)");
 			return false;
 		}
 
@@ -555,13 +556,13 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 			}
 		}
 		if(bSame == false) {
-			if(debugmode) System.out.println("breakBlock skip(BlockId)");
+			if(debugmode) System.out.printf("breakBlock skip(BlockId)");
 			return true;
 		}
 		Block block = Block.blocksList[id];
 
 		if(block == null) {
-			if(debugmode) System.out.println("breakBlock skip(block == null)");
+			if(debugmode) System.out.printf("breakBlock skip(block == null)");
 			return true;
 		}
 
@@ -623,13 +624,12 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
                 ret = false;
             }
 
-        }
+            boolean flag1 = minecraft.thePlayer.canHarvestBlock(block);
 
-        boolean flag1 = minecraft.thePlayer.canHarvestBlock(block);
-
-        if (flag1)
-        {
-        	block.harvestBlock(minecraft.theWorld, minecraft.thePlayer, (int)minecraft.thePlayer.posX, (int)minecraft.thePlayer.posY, (int)minecraft.thePlayer.posZ, i);
+            if (flag1)
+            {
+            	block.harvestBlock(minecraft.theWorld, minecraft.thePlayer, (int)minecraft.thePlayer.posX, (int)minecraft.thePlayer.posY, (int)minecraft.thePlayer.posZ, i);
+            }
         }
 
 		breakcount++;
@@ -696,6 +696,7 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 			for(int i = 0; i < ai_size; i++) {
 				ai[i] = stream.readInt();
 			}
+
 			//System.out.println("RECV: " + packetType + " " + as.toString() + " " + ai.toString());
 
 			switch(packetType) {
@@ -748,6 +749,18 @@ public class mod_TreeBreakerForge extends NetworkMod implements IConnectionHandl
 				}
 				bInitTarget = true;
 				break;
+			case cmd_tool:
+				str = as[0];
+				additional_tools = str;
+				additional_tools_set.clear();
+				tokens = str.split(",");
+				for(String token : tokens) {
+					if(token.isEmpty()) {
+						continue;
+					}
+					additional_tools_set.add(token.trim());
+				}
+
 			}
 
 		    if(minecraft != null) {
