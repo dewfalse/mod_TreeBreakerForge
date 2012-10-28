@@ -49,14 +49,12 @@ public class TreeBreaker {
 		String additionalTools = tools.value;
 
 		Property wood = cfg.get(Configuration.CATEGORY_GENERAL,
-				"additionalWoods", "");
-		wood.comment = "Additional wood block IDs, separate by ','";
-		String additionalWoods = wood.value;
+				"woodIDs", "17");
+		wood.comment = "Wood block IDs, separate by ','";
 
 		Property leaves = cfg.get(Configuration.CATEGORY_GENERAL,
-				"additionalLeaves", "");
-		leaves.comment = "Additional leaves block IDs, separate by ','";
-		String additionalLeaves = leaves.value;
+				"leavesIDs", "18");
+		leaves.comment = "Leaves block IDs, separate by ','";
 
 		Property drop_here = cfg.get(Configuration.CATEGORY_GENERAL,
 				"drop_here", true);
@@ -66,15 +64,14 @@ public class TreeBreaker {
 		cfg.save();
 
 		Property debug = cfg.get(Configuration.CATEGORY_GENERAL,
-				"debug", true);
-		drop_here.comment = "Harvest items near by player";
-		Util.debug = drop_here.getBoolean(true);
+				"debug", false);
+		Util.debug = debug.getBoolean(false);
 
 		config.setTool(additionalTools);
 
-		config.setWood(additionalWoods);
+		config.setWood(wood.value);
 
-		config.setLeaves(additionalLeaves);
+		config.setLeaves(leaves.value);
 	}
 
 }
