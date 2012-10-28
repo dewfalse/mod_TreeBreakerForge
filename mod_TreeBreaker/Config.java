@@ -38,42 +38,6 @@ public class Config {
 		return ret;
 	}
 
-	public void ToggleMode() {
-		mode = Mode.values()[(mode.ordinal() + 1) % Mode.values().length];
-	}
-
-	void setLeaves(String additionalLeaves) {
-		leaves.clear();
-		leaves.add(Block.leaves.getClass().getName());
-		for (String token : additionalLeaves.split(",")) {
-			if (token.trim().isEmpty()) {
-				continue;
-			}
-			leaves.add(token.trim());
-		}
-	}
-
-	void setWood(String additionalWoods) {
-		wood.clear();
-		wood.add(Block.wood.getClass().getName());
-		for (String token : additionalWoods.split(",")) {
-			if (token.trim().isEmpty()) {
-				continue;
-			}
-			wood.add(token.trim());
-		}
-	}
-
-	void setTool(String additionalTools) {
-		tool.clear();
-		for (String token : additionalTools.split(",")) {
-			if (token.trim().isEmpty()) {
-				continue;
-			}
-			tool.add(token.trim());
-		}
-	}
-
 	public Set<Integer> getLeaves() {
 		Set<Integer> ret = new LinkedHashSet();
 		switch(mode) {
@@ -154,4 +118,40 @@ public class Config {
 		return ret;
 	}
 
+
+	public void ToggleMode() {
+		mode = Mode.values()[(mode.ordinal() + 1) % Mode.values().length];
+	}
+
+	void setLeaves(String additionalLeaves) {
+		leaves.clear();
+		leaves.add(Block.leaves.getClass().getName());
+		for (String token : additionalLeaves.split(",")) {
+			if (token.trim().isEmpty()) {
+				continue;
+			}
+			leaves.add(token.trim());
+		}
+	}
+
+	void setWood(String additionalWoods) {
+		wood.clear();
+		wood.add(Block.wood.getClass().getName());
+		for (String token : additionalWoods.split(",")) {
+			if (token.trim().isEmpty()) {
+				continue;
+			}
+			wood.add(token.trim());
+		}
+	}
+
+	void setTool(String additionalTools) {
+		tool.clear();
+		for (String token : additionalTools.split(",")) {
+			if (token.trim().isEmpty()) {
+				continue;
+			}
+			tool.add(token.trim());
+		}
+	}
 }
