@@ -17,7 +17,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 @Mod(modid = "TreeBreaker", name = "TreeBreaker", version = "1.1")
 @NetworkMod(clientSideRequired = false, serverSideRequired = true, channels = { "tbf" }, packetHandler = TBFPacketHandler.class, connectionHandler = TBFConnectionHandler.class, versionBounds = "[1.1]")
 public class TreeBreaker {
-	@SidedProxy(clientSide = "mod_TreeBreaker.ClientProxy", serverSide = "mod_TreeBreaker.CommonProxy")
+	@SidedProxy(clientSide = "mod_TreeBreaker.client.ClientProxy", serverSide = "mod_TreeBreaker.CommonProxy")
 	public static CommonProxy proxy;
 
 	@Instance("TreeBreaker")
@@ -63,35 +63,18 @@ public class TreeBreaker {
 		drop_here.comment = "Harvest items near by player";
 		config.drop_here = drop_here.getBoolean(true);
 
+		cfg.save();
+
 		Property debug = cfg.get(Configuration.CATEGORY_GENERAL,
 				"debug", true);
 		drop_here.comment = "Harvest items near by player";
 		Util.debug = drop_here.getBoolean(true);
 
-		cfg.save();
+		config.setTool(additionalTools);
 
-		for (String token : additionalTools.split(",")) {
-			if (token.trim().isEmpty()) {
-				continue;
-			}
-			config.tool.add(token.trim());
-		}
+		config.setWood(additionalWoods);
 
-		config.wood.add(Block.wood.getClass().getName());
-		for (String token : additionalWoods.split(",")) {
-			if (token.trim().isEmpty()) {
-				continue;
-			}
-			config.wood.add(token.trim());
-		}
-
-		config.leaves.add(Block.leaves.getClass().getName());
-		for (String token : additionalLeaves.split(",")) {
-			if (token.trim().isEmpty()) {
-				continue;
-			}
-			config.leaves.add(token.trim());
-		}
+		config.setLeaves(additionalLeaves);
 	}
 
 }
