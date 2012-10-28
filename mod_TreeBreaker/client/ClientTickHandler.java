@@ -156,16 +156,16 @@ public class ClientTickHandler implements ITickHandler {
 			pos.add(vector);
 			Minecraft mc = ModLoader.getMinecraftInstance();
 			int id = mc.theWorld.getBlockId((int)pos.x, (int)pos.y, (int)pos.z);
-			boolean bSame = false;
-			if(TreeBreaker.config.getWood().contains(id) && TreeBreaker.config.getWood().contains(blockId)) {
-				bSame = true;
-			}
-			else if(TreeBreaker.config.getLeaves().contains(id) && TreeBreaker.config.getLeaves().contains(blockId)) {
-				bSame = true;
-			}
-			else {
-				String str = "targetID=" + TreeBreaker.config.getWood().toString() + TreeBreaker.config.getLeaves().toString() + "not contains " +  id + " or " + "getNextBreak skip because id=" + id + " not equals blockId=" + blockId;
+			boolean bSame = true;
+			if(TreeBreaker.config.getWood().contains(id) == false && TreeBreaker.config.getLeaves().contains(id) == false) {
+				String str = String.valueOf(id) + " not in " + TreeBreaker.config.getWood().toString() + TreeBreaker.config.getLeaves().toString();
 				Util.debugPrintChatMessage(str);
+				bSame = false;
+			}
+			if(TreeBreaker.config.getWood().contains(blockId) == false && TreeBreaker.config.getLeaves().contains(blockId) == false) {
+				String str = String.valueOf(blockId) + " not in " + TreeBreaker.config.getWood().toString() + TreeBreaker.config.getLeaves().toString();
+				Util.debugPrintChatMessage(str);
+				bSame = false;
 			}
 
 			if(bSame) {
