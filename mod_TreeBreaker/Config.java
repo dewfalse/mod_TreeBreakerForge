@@ -16,6 +16,7 @@ public class Config {
 	public Set<String> tool = new LinkedHashSet();
 	public Mode mode = Mode.both;
 	public boolean drop_here = true;
+	public boolean debug = false;
 
 	public Set<Class> getTools() {
 		Set<Class> ret = new LinkedHashSet();

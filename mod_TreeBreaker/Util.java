@@ -125,5 +125,4 @@ public class Util {
 	    packet.length = packet.data.length;
 	    ModLoader.sendPacket(packet);
 	}
-
 }
