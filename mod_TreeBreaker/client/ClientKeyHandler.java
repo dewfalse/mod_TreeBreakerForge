@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import org.lwjgl.input.Keyboard;
 
 import mod_TreeBreaker.TreeBreaker;
+import mod_TreeBreaker.Util;
 import net.minecraft.src.KeyBinding;
 import net.minecraft.src.ModLoader;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
@@ -35,8 +36,7 @@ public class ClientKeyHandler extends KeyHandler {
 	public void keyUp(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd) {
 		if(tickEnd) {
 			TreeBreaker.config.ToggleMode();
-			ModLoader.getMinecraftInstance().ingameGUI.getChatGUI()
-			.printChatMessage("TreeBreaker Mode: " + TreeBreaker.config.mode.toString());
+			Util.printChatMessage("TreeBreaker Mode: " + TreeBreaker.config.mode.toString());
 		}
 	}
 
