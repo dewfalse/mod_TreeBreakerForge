@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import mod_StoneBreaker.Util;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.src.Block;
 import net.minecraft.src.EntityPlayer;
@@ -46,10 +47,9 @@ public class TBFPacketHandler implements IPacketHandler {
 
 			Side side = FMLCommonHandler.instance().getEffectiveSide();
 			if(side == Side.SERVER) {
-				Util.consoleLog(strData.toString());
+				//Util.consoleLog(strData.toString());
 			}
 			else if(side == Side.CLIENT) {
-				System.out.println(strData.toString());
 				Util.debugPrintChatMessage(strData.toString());
 				switch(EnumPacketType.values()[type]) {
 				case config:
@@ -62,7 +62,7 @@ public class TBFPacketHandler implements IPacketHandler {
 				}
 			}
 			if(EnumPacketType.values()[type] == EnumPacketType.destroy) {
-	            MinecraftServer.logger.info("FBF receive: destroy");
+				if(Util.debug) MinecraftServer.logger.info("TBF receive: destroy " + strData.toString() + ", " + integerData.toString());
 				Object[] obj = Util.getServerWorldAndPlayer(strData.get(0));
 
 				EntityPlayerMP thePlayer = (EntityPlayerMP)obj[1];
